@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:1.19-alpine
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./src/react-client:/var/www
+    env_file:
+      - ./environments/${NODE_ENV:-local}.env
+
+  react-client:
+    image: node:12-alpine
+    volumes:
+      - ./src/react-client:/var/app
+    env_file:
+      - ./environments/${NODE_ENV:-local}.env
+    
+  node-server:
+    image: node:12-alpine
+    volumes:
+      - ./src/node-server:/var/app
+    env_file:
+      - ./environments/${NODE_ENV:-local}.env
